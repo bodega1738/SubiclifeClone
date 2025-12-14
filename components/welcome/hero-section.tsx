@@ -1,17 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useUser } from "@/lib/user-context"
-import { SignupModal } from "./signup-modal"
-import { OAuthModal } from "./oauth-modal"
-
-type OAuthProvider = "google" | "facebook" | "instagram" | null
 
 export function HeroSection() {
-  const [isSignupOpen, setIsSignupOpen] = useState(false)
-  const [oauthProvider, setOauthProvider] = useState<OAuthProvider>(null)
   const { loginAsDemo } = useUser()
   const router = useRouter()
 
@@ -20,40 +13,35 @@ export function HeroSection() {
     router.push("/home")
   }
 
-  const handleOAuthSuccess = (name: string, email: string) => {
-    setOauthProvider(null)
-    setIsSignupOpen(true)
-  }
-
   return (
-    <div className="min-h-screen flex flex-col bg-white relative">
+    <div className="min-h-screen flex flex-col relative">
       <div
-        className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)",
+          backgroundImage: `url('/images/final-20image-203.png')`,
         }}
       />
+      {/* Gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 relative z-10">
         <div className="flex flex-col items-center text-center max-w-md w-full">
-          {/* Logo - white logo needs dark backdrop which we have above */}
           <div className="mb-8">
             <img
               src="/images/screenshot-2025-12-14-021635-removebg-preview.png"
               alt="Subic.LIFE"
-              className="h-24 w-auto"
+              className="h-20 md:h-24 w-auto"
             />
           </div>
 
-          {/* Hero text - adjusted for white bg below gradient */}
-          <h1 className="text-3xl font-bold text-slate-900 mb-3 text-balance">Your Gateway to Subic Bay</h1>
-          <p className="text-lg text-slate-600 mb-12">Exclusive benefits. Sustainable travel.</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 text-balance">Your Gateway to Subic Bay</h1>
+          <p className="text-lg text-white/90 mb-12 font-light">Exclusive benefits. Sustainable travel.</p>
 
           <div className="flex flex-col gap-3 w-full mb-4">
             <Button
-              onClick={() => setOauthProvider("google")}
+              onClick={() => router.push("/register?provider=google")}
               variant="outline"
-              className="w-full h-12 text-base font-medium bg-white hover:bg-slate-50 text-slate-700 border-slate-300 shadow-sm"
+              className="w-full h-14 text-base font-medium bg-white hover:bg-white/90 text-slate-700 border-0 shadow-lg"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                 <path
@@ -77,8 +65,8 @@ export function HeroSection() {
             </Button>
 
             <Button
-              onClick={() => setOauthProvider("facebook")}
-              className="w-full h-12 text-base font-medium bg-[#1877F2] hover:bg-[#166FE5] text-white border-0 shadow-sm"
+              onClick={() => router.push("/register?provider=facebook")}
+              className="w-full h-14 text-base font-medium bg-[#1877F2] hover:bg-[#166FE5] text-white border-0 shadow-lg"
             >
               <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -87,14 +75,14 @@ export function HeroSection() {
             </Button>
 
             <Button
-              onClick={() => setOauthProvider("instagram")}
-              className="w-full h-12 text-base font-medium text-white border-0 shadow-sm"
+              onClick={() => router.push("/register?provider=instagram")}
+              className="w-full h-14 text-base font-medium text-white border-0 shadow-lg"
               style={{
                 background: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
               }}
             >
               <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
               </svg>
               Continue with Instagram
             </Button>
@@ -102,23 +90,23 @@ export function HeroSection() {
 
           {/* Divider */}
           <div className="flex items-center gap-4 w-full mb-4">
-            <div className="flex-1 h-px bg-slate-300" />
-            <span className="text-sm text-slate-500">or</span>
-            <div className="flex-1 h-px bg-slate-300" />
+            <div className="flex-1 h-px bg-white/30" />
+            <span className="text-sm text-white/70">or</span>
+            <div className="flex-1 h-px bg-white/30" />
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - navigate to register page */}
           <div className="flex flex-col gap-3 w-full">
             <Button
-              onClick={() => setIsSignupOpen(true)}
+              onClick={() => router.push("/register")}
               variant="outline"
-              className="w-full h-12 text-base font-semibold bg-transparent hover:bg-slate-100 text-slate-700 border-slate-300"
+              className="w-full h-14 text-base font-semibold bg-transparent hover:bg-white/10 text-white border-white/50"
             >
               Sign up with Email
             </Button>
             <Button
               onClick={handleDemoLogin}
-              className="w-full h-12 text-base font-semibold bg-[#0A74DA] hover:bg-[#0960b5] text-white shadow-md"
+              className="w-full h-14 text-base font-semibold bg-[#135bec] hover:bg-[#0e45b5] text-white shadow-lg"
             >
               Demo as Elite Member
             </Button>
@@ -126,12 +114,12 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="w-full bg-[#00B14F] py-3">
-        <p className="text-center text-white text-sm font-semibold tracking-wide">SBMA GREEN DESTINATIONS 2025</p>
+      <div className="relative z-10 w-full bg-[#10b981] py-3">
+        <p className="text-center text-white text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
+          <span className="w-2 h-2 bg-white rounded-full" />
+          SBMA GREEN DESTINATIONS 2025
+        </p>
       </div>
-
-      <SignupModal isOpen={isSignupOpen} onClose={() => setIsSignupOpen(false)} />
-      <OAuthModal provider={oauthProvider} onClose={() => setOauthProvider(null)} onSuccess={handleOAuthSuccess} />
     </div>
   )
 }

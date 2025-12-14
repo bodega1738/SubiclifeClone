@@ -4,25 +4,25 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #f6f6f8;
+  --foreground: #111318;
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #111318;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #0a74da;
+  --popover-foreground: #111318;
+  --primary: #135bec;
   --primary-foreground: #ffffff;
   --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
+  --secondary-foreground: #111318;
   --muted: #f8fafc;
-  --muted-foreground: #64748b;
+  --muted-foreground: #616f89;
   --accent: #f1f5f9;
-  --accent-foreground: #0f172a;
+  --accent-foreground: #111318;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #0a74da;
+  --ring: #135bec;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -39,9 +39,13 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* Custom colors for Subic.Life */
-  --subic-blue: #0a74da;
-  --subic-green: #16a34a;
+  --subic-blue: #135bec;
+  --subic-green: #10b981;
   --subic-gold: #d97706;
+  --text-main: #111318;
+  --text-sub: #616f89;
+  --background-light: #f6f6f8;
+  --surface: #ffffff;
 }
 
 .dark {
@@ -80,7 +84,7 @@
 }
 
 @theme inline {
-  --font-sans: "Inter", "Inter Fallback", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -125,7 +129,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
+}
+
+/* Hide all scrollbars globally while keeping scroll functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Custom utility classes */

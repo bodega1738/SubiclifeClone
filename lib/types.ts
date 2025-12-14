@@ -11,6 +11,7 @@ export interface User {
   memberId?: string
   insuranceAmount: number
   ecoContribution: number
+  points: number
   validUntil: Date
   createdAt: Date
 }

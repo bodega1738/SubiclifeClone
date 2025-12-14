@@ -9,6 +9,7 @@ interface UserContextType {
   login: (name: string, email: string, phone?: string, birthday?: string, address?: string) => void
   loginAsDemo: () => void
   upgradeTier: (tier: MembershipTier) => void
+  addPoints: (amount: number) => void
   logout: () => void
 }
 
@@ -34,6 +35,20 @@ export const discountPercentages: Record<string, number> = {
   elite: 25,
 }
 
+export const tierThresholds = {
+  starter: 0,
+  basic: 5000,
+  premium: 15000,
+  elite: 30000,
+}
+
+function getTierFromPoints(points: number): MembershipTier {
+  if (points >= 30000) return "elite"
+  if (points >= 15000) return "premium"
+  if (points >= 5000) return "basic"
+  return "starter"
+}
+
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
 
@@ -45,9 +60,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
       phone,
       birthday,
       address,
-      tier: null,
-      insuranceAmount: 0,
+      tier: "starter",
+      memberId: generateMemberId("starter"),
+      insuranceAmount: insuranceAmounts.starter,
       ecoContribution: 0,
+      points: 1000,
       validUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
       createdAt: new Date(),
     }
@@ -64,6 +81,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       memberId: generateMemberId("elite"),
       insuranceAmount: insuranceAmounts.elite,
       ecoContribution: 12450,
+      points: 24500,
       validUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
       createdAt: new Date(),
     }
@@ -82,12 +100,26 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const addPoints = (amount: number) => {
+    if (user) {
+      const newPoints = user.points + amount
+      const newTier = getTierFromPoints(newPoints)
+      setUser({
+        ...user,
+        points: newPoints,
+        tier: newTier,
+        insuranceAmount: insuranceAmounts[newTier || "starter"],
+        memberId: newTier !== user.tier ? generateMemberId(newTier) : user.memberId,
+      })
+    }
+  }
+
   const logout = () => {
     setUser(null)
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, loginAsDemo, upgradeTier, logout }}>
+    <UserContext.Provider value={{ user, setUser, login, loginAsDemo, upgradeTier, addPoints, logout }}>
       {children}
     </UserContext.Provider>
   )

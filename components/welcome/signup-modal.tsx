@@ -63,7 +63,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
     login(name, email, `+63 ${phone}`, birthday, address)
     setIsLoading(false)
     onClose()
-    router.push("/starter-payment")
+    router.push("/home")
   }
 
   return (
@@ -192,24 +192,23 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
               </div>
             </div>
 
-            {/* Terms Checkbox */}
             <div className="flex items-start gap-3 pt-2">
               <Checkbox
                 id="terms"
                 checked={agreedToTerms}
                 onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                className="mt-0.5"
+                className="mt-0.5 transition-none data-[state=checked]:transition-none"
               />
               <Label htmlFor="terms" className="text-sm text-slate-600 cursor-pointer leading-relaxed">
-                I agree to the <span className="text-[#0A74DA] font-medium">Terms & Conditions</span> and{" "}
-                <span className="text-[#0A74DA] font-medium">Privacy Policy</span>
+                I agree to the <span className="text-[#135bec] font-medium">Terms & Conditions</span> and{" "}
+                <span className="text-[#135bec] font-medium">Privacy Policy</span>
               </Label>
             </div>
 
             <Button
               type="submit"
               disabled={isLoading || !isFormValid}
-              className="w-full h-12 text-base font-semibold bg-[#0A74DA] hover:bg-[#0960b5] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 text-base font-semibold bg-[#135bec] hover:bg-[#0e45b5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? "Creating Account..." : "Continue"}
             </Button>
