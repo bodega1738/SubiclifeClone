@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { UserProvider } from "@/lib/user-context"
 import "./globals.css"
+import { BottomNavWrapper } from "@/components/layout/bottom-nav-wrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -27,9 +28,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        <UserProvider>{children}</UserProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
+        <UserProvider>
+          {children}
+          <BottomNavWrapper />
+        </UserProvider>
         <Analytics />
       </body>
     </html>

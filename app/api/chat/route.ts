@@ -50,7 +50,7 @@ function getSmartResponse(message: string): { content: string; bookingCard: any 
         time: "7:00 PM",
         guests: 2,
         discount: partner.discount,
-        image: "/lighthouse-marina-resort-waterfront-dining-subic-bay.jpg",
+        image: "/subic-bay-aerial-view-blue-ocean-tropical.jpg",
       },
     }
   }
@@ -71,7 +71,7 @@ function getSmartResponse(message: string): { content: string; bookingCard: any 
         time: "4:30 PM",
         guests: 2,
         discount: partner.discount,
-        image: "/la-banca-cruises-yacht-sunset-subic-bay.jpg",
+        image: "/luxury-yacht-cruise-sunset-subic-bay.jpg",
       },
     }
   }
@@ -92,7 +92,7 @@ function getSmartResponse(message: string): { content: string; bookingCard: any 
         time: "9:00 AM",
         guests: 2,
         discount: partner.discount,
-        image: "/tree-top-adventure-zipline-subic-bay.jpg",
+        image: "/zipline-forest-canopy-adventure-green.jpg",
       },
     }
   }
@@ -113,7 +113,7 @@ function getSmartResponse(message: string): { content: string; bookingCard: any 
         time: "8:00 AM",
         guests: 2,
         discount: partner.discount,
-        image: "/subic-bay-diving-wreck-coral-reef.jpg",
+        image: "/subic-bay-aerial-view-blue-ocean-tropical.jpg",
       },
     }
   }
@@ -128,7 +128,7 @@ function getSmartResponse(message: string): { content: string; bookingCard: any 
         time: "10:00 AM",
         guests: 2,
         discount: partner.discount,
-        image: "/networx-jetsports-jet-ski-subic-bay.jpg",
+        image: "/jet-ski-ocean-watersports-blue-sky.jpg",
       },
     }
   }
@@ -149,7 +149,7 @@ function getSmartResponse(message: string): { content: string; bookingCard: any 
         time: "Check-in 2:00 PM",
         guests: 2,
         discount: partner.discount,
-        image: "/best-western-plus-hotel-subic-bay-pool.jpg",
+        image: "/luxury-resort-suite-ocean-view-sunset.jpg",
       },
     }
   }

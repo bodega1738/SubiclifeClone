@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Shield, Maximize2, X, Anchor, Hotel } from "lucide-react"
+import { Shield, Maximize2, X, Anchor, Hotel, CreditCard, Star } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -37,7 +37,7 @@ export function MembershipPass() {
   useEffect(() => {
     const generateQR = () => {
       const timestamp = Date.now()
-      const code = `SL:${user?.memberId || "DEMO"}:${timestamp}`
+      const code = `SL:${user?.member_id || "DEMO"}:${timestamp}`
       setQrValue(code)
       setValidity(30)
     }
@@ -54,7 +54,7 @@ export function MembershipPass() {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [user?.memberId])
+  }, [user?.member_id])
 
   const tier = user?.tier || "starter"
   const style = tierStyles[tier as keyof typeof tierStyles] || tierStyles.starter
@@ -93,7 +93,7 @@ export function MembershipPass() {
         {/* Member details */}
         <div className="space-y-1 mb-6">
           <h2 className="text-xl font-bold text-slate-900">{user?.name || "Guest"}</h2>
-          <p className="text-sm text-slate-500 font-mono">{user?.memberId || "SL-2025-DEMO-0000"}</p>
+          <p className="text-sm text-slate-500 font-mono">{user?.member_id || "SL-2025-DEMO-0000"}</p>
           <p className="text-sm text-slate-500">Valid until {validUntil}</p>
         </div>
 
@@ -156,6 +156,24 @@ export function MembershipPass() {
     )
   }
 
+  const benefits = [
+    {
+      icon: <Shield className="w-5 h-5 text-blue-600" />,
+      title: "Insurance",
+      desc: `₱${(user?.insuranceAmount || 25000).toLocaleString()} Coverage`
+    },
+    {
+      icon: <CreditCard className="w-5 h-5 text-green-600" />,
+      title: "Discount",
+      desc: `${discount}% at 50+ Partners`
+    },
+    {
+      icon: <Star className="w-5 h-5 text-yellow-500" />,
+      title: "Points",
+      desc: `${user?.points || 0} Points Balance`
+    }
+  ]
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -165,13 +183,32 @@ export function MembershipPass() {
         </div>
       </div>
 
-      <div className="max-w-md mx-auto px-4 py-6">
-        <PassCard />
+      <div className="max-w-md mx-auto px-4 py-6 space-y-6">
+        <div>
+          <PassCard />
+          <Button onClick={() => setIsFullscreen(true)} variant="outline" className="w-full mt-4 h-12 gap-2 rounded-xl border-slate-200 text-slate-600 font-medium">
+            <Maximize2 className="w-4 h-4" />
+            Tap to Fullscreen
+          </Button>
+        </div>
 
-        <Button onClick={() => setIsFullscreen(true)} variant="outline" className="w-full mt-4 h-12 gap-2">
-          <Maximize2 className="w-4 h-4" />
-          Tap to Fullscreen
-        </Button>
+        {/* Benefits Summary Section */}
+        <div className="grid grid-cols-2 gap-3">
+          {benefits.map((benefit, i) => (
+            <Card key={i} className="border-none shadow-sm rounded-2xl bg-white p-4">
+              <div className="mb-2">{benefit.icon}</div>
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{benefit.title}</h4>
+              <p className="text-sm font-bold text-slate-900 leading-tight">{benefit.desc}</p>
+            </Card>
+          ))}
+          {(tier === 'premium' || tier === 'elite') && (
+            <Card className="border-none shadow-sm rounded-2xl bg-gradient-to-br from-orange-50 to-white p-4">
+              <div className="mb-2"><Hotel className="w-5 h-5 text-orange-600" /></div>
+              <h4 className="text-xs font-bold text-orange-400 uppercase tracking-wider mb-1">Bonus</h4>
+              <p className="text-sm font-bold text-slate-900 leading-tight">1 Free Hotel Night</p>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   )

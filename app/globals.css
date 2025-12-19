@@ -4,13 +4,63 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Primary Colors */
+  --blue-primary: #135bec;
+  --green-success: #10b981;
+  --orange-accent: #f97316;
+  
+  /* Neutrals */
+  --gray-900: #222222;
+  --gray-600: #6B7280;
+  --gray-400: #9CA3AF;
+  --gray-200: #E5E7EB;
+  --gray-100: #F3F4F6;
+  --gray-50: #F9FAFB;
+  --white: #FFFFFF;
+  
+  /* Semantic */
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+  
+  /* Spacing (4px base) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-xl: 0 8px 24px rgba(0,0,0,0.15);
+  
+  /* Animation Timing */
+  --timing-fast: 150ms;
+  --timing-standard: 250ms;
+  --timing-slow: 350ms;
+
+  /* shadcn/ui compatibility - map to Design System */
   --background: #f6f6f8;
   --foreground: #111318;
   --card: #ffffff;
   --card-foreground: #111318;
   --popover: #ffffff;
   --popover-foreground: #111318;
-  --primary: #135bec;
+  --primary: var(--blue-primary);
   --primary-foreground: #ffffff;
   --secondary: #f1f5f9;
   --secondary-foreground: #111318;
@@ -18,25 +68,12 @@
   --muted-foreground: #616f89;
   --accent: #f1f5f9;
   --accent-foreground: #111318;
-  --destructive: #ef4444;
+  --destructive: var(--error);
   --destructive-foreground: #ffffff;
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #135bec;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --ring: var(--blue-primary);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
 
   /* Custom colors for Subic.Life */
   --subic-blue: #135bec;
@@ -84,7 +121,7 @@
 }
 
 @theme inline {
-  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -129,7 +166,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -177,3 +214,126 @@
 .bg-subic-gold {
   background-color: var(--subic-gold);
 }
+
+/* Icon patterns - Lucide React */
+.icon-default {
+  @apply w-5 h-5 text-gray-600;
+  stroke-width: 1.5;
+}
+
+.icon-active {
+  @apply w-5 h-5 text-blue-600 fill-current;
+  stroke-width: 1.5;
+}
+
+.icon-small {
+  @apply w-4 h-4;
+  stroke-width: 1.5;
+}
+
+.icon-large {
+  @apply w-6 h-6;
+  stroke-width: 1.5;
+}
+
+/* Animation patterns */
+.animate-button-press {
+  @apply hover:scale-[1.02] active:scale-95 transition-transform duration-150;
+}
+
+.animate-card-hover {
+  @apply hover:shadow-lg hover:-translate-y-0.5 transition-all duration-250;
+}
+
+.animate-page-transition {
+  animation: fadeInSlide 250ms ease-out;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-bottom-sheet {
+  animation: slideInBottom 350ms ease-out;
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Card with 4:3 image */
+.card-image {
+  @apply w-full aspect-[4/3] object-cover;
+}
+
+/* Hero card overlay */
+.card-hero-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 to-transparent;
+}
+
+/* Merchant Portal - Professional Dashboard Style */
+.merchant-header {
+  @apply sticky top-0 bg-white border-b px-4 py-3 z-50;
+}
+
+.merchant-card {
+  @apply bg-white rounded-xl border p-4 shadow-sm;
+}
+
+.merchant-metric-card {
+  @apply bg-white rounded-xl border p-4;
+}
+
+.merchant-metric-icon {
+  @apply w-10 h-10 rounded-full flex items-center justify-center;
+}
+
+.merchant-metric-icon-blue {
+  @apply bg-blue-100 text-blue-600;
+}
+
+.merchant-metric-icon-green {
+  @apply bg-green-100 text-green-600;
+}
+
+.merchant-metric-icon-orange {
+  @apply bg-orange-100 text-orange-600;
+}
+
+.merchant-metric-icon-purple {
+  @apply bg-purple-100 text-purple-600;
+}
+
+/* Differentiate from user app Airbnb aesthetic */
+.merchant-layout {
+  @apply bg-gray-50 min-h-screen;
+}
+
+/* Typography - Inter font */
+.text-tiny { font-size: 12px; }
+.text-caption { font-size: 13px; }
+.text-small { font-size: 14px; }
+.text-body { font-size: 15px; }
+.text-large { font-size: 16px; }
+.text-h4 { font-size: 18px; }
+.text-h3 { font-size: 20px; }
+.text-h2 { font-size: 24px; }
+.text-h1 { font-size: 32px; }
+
+/* Weights */
+.font-regular { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }

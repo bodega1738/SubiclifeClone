@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Search, ChevronRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -96,6 +96,7 @@ const partners = [
 ]
 
 export function PartnersDirectory() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const initialCategory = searchParams.get("category") || "all"
   const [activeCategory, setActiveCategory] = useState(initialCategory)
@@ -152,7 +153,8 @@ export function PartnersDirectory() {
           {filteredPartners.map((partner) => (
             <Card
               key={partner.id}
-              className="overflow-hidden shadow-sm border-0 hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => router.push(`/partners/${partner.id}`)}
+              className="overflow-hidden shadow-sm border-0 hover:shadow-md transition-shadow cursor-pointer active:scale-95 duration-150"
             >
               <CardContent className="p-4">
                 <div className="w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-slate-100 flex items-center justify-center">

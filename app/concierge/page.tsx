@@ -4,7 +4,6 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useUser } from "@/lib/user-context"
 import { ConciergeChat } from "@/components/concierge/concierge-chat"
-import { BottomNav } from "@/components/layout/bottom-nav"
 
 export default function ConciergePage() {
   const { user } = useUser()
@@ -21,7 +20,6 @@ export default function ConciergePage() {
   return (
     <div className="min-h-screen bg-white pb-20">
       <ConciergeChat />
-      <BottomNav />
     </div>
   )
 }

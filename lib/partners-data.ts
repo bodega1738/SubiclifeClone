@@ -1,4 +1,20 @@
 import type { Partner, Offer } from "./types"
+import { mockSupabase as supabase } from "./mock-db"
+
+export async function getPartnerById(id: string): Promise<Partner | null> {
+  try {
+    const { data, error } = await supabase.from("partners").select("*").eq("id", id).single()
+
+    if (error || !data) {
+      return partners.find((p) => p.id === id) || null
+    }
+
+    return data as Partner
+  } catch (err) {
+    console.error("Error fetching partner from Supabase:", err)
+    return partners.find((p) => p.id === id) || null
+  }
+}
 
 export const partners: Partner[] = [
   {

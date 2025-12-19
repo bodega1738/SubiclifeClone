@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, ChevronDown, Check } from "lucide-react"
+import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, ChevronDown, Check, Waves } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -56,7 +56,7 @@ function RegisterForm() {
     await new Promise((resolve) => setTimeout(resolve, 800))
     login(name, email, `+63 ${phone}`, birthday, address)
     setIsLoading(false)
-    router.push("/home")
+    router.push("/onboarding")
   }
 
   const getProviderLabel = () => {
@@ -279,6 +279,21 @@ function RegisterForm() {
               Sign in
             </button>
           </p>
+
+          <div className="pt-8 border-t border-slate-100 mt-8">
+            <p className="text-center text-xs text-slate-400 mb-4 font-medium uppercase tracking-wider">
+              Are you a business partner?
+            </p>
+            <Button
+              type="button"
+              onClick={() => router.push("/portal")}
+              variant="outline"
+              className="w-full h-12 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-[#135bec] hover:border-[#135bec] rounded-xl transition-all flex items-center justify-center gap-2 group"
+            >
+              <Waves className="w-5 h-5 text-slate-400 group-hover:text-[#135bec] transition-colors" />
+              Partner Login
+            </Button>
+          </div>
         </form>
       </main>
     </div>

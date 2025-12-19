@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Bell, Hotel, Waves, Utensils, MapPin, Grid3X3, ChevronRight, Star, Shield, Sparkles } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -103,7 +103,7 @@ const tierConfig = {
 }
 
 export function HomeDashboard() {
-  const { user } = useUser()
+  const { user, merchantSession } = useUser()
   const router = useRouter()
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -112,6 +112,12 @@ export function HomeDashboard() {
   const points = user?.points || 1000
   const config = tierConfig[tier as keyof typeof tierConfig] || tierConfig.starter
   const userDiscount = discountPercentages[tier] || 5
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Calculate progress to next tier
   const currentThreshold = tierThresholds[tier as keyof typeof tierThresholds] || 0
@@ -134,7 +140,7 @@ export function HomeDashboard() {
           <div className="flex items-center gap-3.5">
             <div className="relative">
               <Avatar className="w-11 h-11 border-2 border-white shadow-sm">
-                <AvatarImage src="/placeholder.svg?height=44&width=44" />
+                <AvatarImage src="/placeholder-user.jpg" />
                 <AvatarFallback className="bg-[#135bec] text-white font-semibold">{firstName.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#10b981] border-2 border-white rounded-full" />
@@ -190,7 +196,10 @@ export function HomeDashboard() {
                 </div>
               </div>
 
-              <Button className="w-full h-14 rounded-full bg-white text-[#111318] font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-gray-50 shadow-lg">
+              <Button 
+                onClick={() => router.push("/membership")}
+                className="w-full h-14 rounded-full bg-white text-[#111318] font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-gray-50 shadow-lg"
+              >
                 <Star className="w-5 h-5 text-[#135bec]" />
                 Redeem Rewards
               </Button>
@@ -216,6 +225,18 @@ export function HomeDashboard() {
               </button>
             ))}
           </div>
+          
+          {isMounted && (
+            <div className="pr-5 mt-2">
+              <Button
+                onClick={() => router.push("/portal")}
+                className="w-full h-12 bg-[#135bec] text-white rounded-lg shadow-md hover:bg-[#0e45b5] active:scale-95 transition-all flex items-center justify-center gap-2"
+              >
+                <Waves className="w-5 h-5" />
+                {merchantSession ? "Go to Dashboard" : "Partner Login"}
+              </Button>
+            </div>
+          )}
         </section>
 
         <section className="flex flex-col gap-4">
