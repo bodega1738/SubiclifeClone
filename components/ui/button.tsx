@@ -5,18 +5,18 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-all disabled:pointer-events-none disabled:opacity-50 outline-none",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-all duration-150 disabled:pointer-events-none disabled:opacity-50 outline-none",
   {
     variants: {
       variant: {
         // Primary: h-12 px-6 bg-[#135bec] hover:bg-[#0e45b5]
-        primary: 'bg-[#135bec] hover:bg-[#0e45b5] text-white rounded-lg shadow-md active:scale-95',
+        primary: 'bg-[#135bec] hover:bg-[#0e45b5] text-white rounded-lg shadow-md hover:scale-[1.02] active:scale-95',
         
         // Secondary: h-12 px-6 border
-        secondary: 'bg-white border border-gray-300 hover:bg-gray-50 text-gray-900 font-medium rounded-lg',
+        secondary: 'bg-white border border-gray-300 hover:bg-gray-50 text-gray-900 font-medium rounded-lg hover:scale-[1.02] active:scale-95',
         
         // Ghost: h-10 px-4
-        ghost: 'bg-transparent hover:bg-gray-100 text-gray-700 font-medium rounded-lg',
+        ghost: 'bg-transparent hover:bg-gray-100 text-gray-700 font-medium rounded-lg hover:scale-[1.02] active:scale-95',
         
         // Keep existing for compatibility
         default: 'bg-primary text-primary-foreground hover:bg-primary/90 rounded-md',
@@ -40,8 +40,8 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'default',
+      variant: 'primary',
+      size: 'primary',
     },
   }
 )

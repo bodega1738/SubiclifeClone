@@ -171,7 +171,11 @@ export const useMockDBStore = create<MockDBStore>()(
       }),
       {
         name: 'mock-db',
-        storage: createJSONStorage(() => localStorage),
+        storage: createJSONStorage(() => typeof window !== 'undefined' ? localStorage : {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {}
+        }),
         partialize: (state) => ({
           users: state.users,
           partners: state.partners,

@@ -17,9 +17,11 @@ export default function PartnersPage() {
 
   if (!user) return null
 
+  const defaultCategory = user?.preferences?.interests?.[0] || 'all'
+
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
-      <PartnersDirectory />
+      <PartnersDirectory defaultCategory={defaultCategory} />
     </div>
   )
 }

@@ -108,6 +108,18 @@ export default function PortalLoginPage() {
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-6">
             <p className="text-xs text-blue-700 font-mono text-center">Demo: demo@subic.life / demo123</p>
           </div>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              New partner?{' '}
+              <button
+                onClick={() => router.push('/portal/register')}
+                className="text-blue-600 font-medium hover:underline"
+              >
+                Register your business
+              </button>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

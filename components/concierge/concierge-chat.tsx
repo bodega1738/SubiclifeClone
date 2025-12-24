@@ -2,13 +2,14 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { MoreVertical, Send, Bot, Check, Loader2 } from "lucide-react"
+import { MoreVertical, Send, Bot, Check, Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useUser, discountPercentages } from "@/lib/user-context"
 import { useToast } from "@/hooks/use-toast"
+import { mockSupabase } from "@/lib/mock-db"
 import type { ChatMessage } from "@/lib/types"
 
 const quickPrompts = ["Find dinner spot", "Book yacht", "Plan day trip", "Best diving", "Hotel deals"]
@@ -82,12 +83,52 @@ export function ConciergeChat() {
     }
   }
 
-  const handleConfirmBooking = (messageId: string) => {
-    setConfirmedBookings((prev) => new Set(prev).add(messageId))
+  const handleConfirmBooking = async (messageId: string, bookingCard: any) => {
+    // Generate booking reference
+    const bookingRef = `SL-${new Date().getFullYear()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
+    
+    // Create booking in mockDB
+    const newBooking = {
+      id: crypto.randomUUID(),
+      user_id: user?.id,
+      partner_id: bookingCard.partnerId,
+      booking_type: 'restaurant', // Infer from category or default
+      booking_details: {
+        date: new Date().toISOString().split('T')[0],
+        time: bookingCard.time || '7:00 PM',
+        party_size: bookingCard.guests || 2,
+        special_requests: 'Booked via Concierge'
+      },
+      status: 'pending',
+      payment_status: 'pending',
+      total_amount: bookingCard.price,
+      discount_amount: Math.round(bookingCard.price * (bookingCard.discount / 100)),
+      final_amount: Math.round(bookingCard.price * (1 - bookingCard.discount / 100)),
+      created_at: new Date().toISOString()
+    }
+    
+    // Insert via mockSupabase
+    await mockSupabase.from('bookings').insert(newBooking)
+    
+    // Create merchant notification
+    await mockSupabase.from('notifications').insert({
+      partner_id: bookingCard.partnerId,
+      type: 'new_booking',
+      title: 'New Booking Request',
+      message: `${user?.name} (${user?.tier}) - Concierge booking`,
+      read: false
+    })
+    
+    // Award points
     addPoints(500)
+    
+    // Update UI
+    setConfirmedBookings(prev => new Set(prev).add(messageId))
+    
+    // Show toast with reference
     toast({
-      title: "+500 Points Earned!",
-      description: "Your booking has been confirmed. Points added to your account.",
+      title: "✅ Booking Request Sent!",
+      description: `Reference: ${bookingRef} • +500 Points Earned`
     })
   }
 
@@ -111,6 +152,29 @@ export function ConciergeChat() {
           <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
             <MoreVertical className="w-5 h-5 text-[#616f89]" />
           </button>
+        </div>
+        
+        {/* Search Bar */}
+        <div className="max-w-md mx-auto px-5 pb-3">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault()
+              const form = e.currentTarget
+              const input = form.elements.namedItem('search') as HTMLInputElement
+              if (input.value.trim()) {
+                handleSend(input.value)
+                input.value = ''
+              }
+            }}
+            className="relative"
+          >
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Input 
+              name="search"
+              placeholder="What can I help you find?" 
+              className="pl-11 h-12 rounded-xl bg-white shadow-sm border-gray-200"
+            />
+          </form>
         </div>
       </div>
 
@@ -158,31 +222,42 @@ export function ConciergeChat() {
                 {/* Booking Card */}
                 {message.bookingCard && (
                   <Card className="mt-3 shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)] border-0 overflow-hidden rounded-2xl">
-                    <div className="h-24 relative">
+                    <div className="aspect-[4/3] w-full relative">
                       <img
                         src={message.bookingCard.image || "/placeholder.svg"}
                         alt={message.bookingCard.venue}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <CardContent className="p-3">
-                      <h4 className="font-semibold text-[#111318]">{message.bookingCard.venue}</h4>
-                      <div className="flex items-center gap-4 text-sm text-[#616f89] mt-1">
-                        <span>{message.bookingCard.time}</span>
-                        <span>{message.bookingCard.guests} guests</span>
-                        <span className="text-[#10b981] font-medium">{message.bookingCard.discount}% off</span>
+                    <CardContent className="p-3 flex flex-col gap-2">
+                      <div>
+                        <h4 className="font-semibold text-[#111318]">{message.bookingCard.venue}</h4>
+                        <p className="text-sm text-gray-600">
+                          {message.bookingCard.category} • ⭐ {message.bookingCard.rating}
+                        </p>
                       </div>
+                      
+                      <div className="flex items-center justify-between mt-1">
+                        <div className="flex flex-col">
+                           <span className="text-xs text-gray-500">From</span>
+                           <span className="text-base font-semibold">₱{message.bookingCard.price?.toLocaleString()}</span>
+                        </div>
+                        <span className="bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded-md text-xs font-medium">
+                          {message.bookingCard.discount}% OFF
+                        </span>
+                      </div>
+
                       {confirmedBookings.has(message.id) ? (
-                        <div className="mt-3 flex items-center justify-center gap-2 py-2 bg-green-100 rounded-lg">
+                        <div className="mt-2 flex items-center justify-center gap-2 py-2 bg-green-100 rounded-lg">
                           <Check className="w-4 h-4 text-[#10b981]" />
-                          <span className="text-sm font-medium text-green-700">Booking Confirmed! +500 pts</span>
+                          <span className="text-sm font-medium text-green-700">Booking Request Sent</span>
                         </div>
                       ) : (
                         <Button
-                          onClick={() => handleConfirmBooking(message.id)}
-                          className="w-full mt-3 bg-[#10b981] hover:bg-[#059669] rounded-xl h-11"
+                          onClick={() => handleConfirmBooking(message.id, message.bookingCard)}
+                          className="w-full mt-2 bg-[#10b981] hover:bg-[#059669] rounded-xl h-11"
                         >
-                          Confirm Booking
+                          Book Now
                         </Button>
                       )}
                     </CardContent>

@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { BottomNav } from "@/components/layout/bottom-nav"
+import { NewBottomNav } from "@/components/layout/new-bottom-nav"
 
 export function BottomNavWrapper() {
   const pathname = usePathname()
@@ -16,5 +16,5 @@ export function BottomNavWrapper() {
 
   if (!shouldShowBottomNav) return null
 
-  return <BottomNav />
+  return <NewBottomNav />
 }

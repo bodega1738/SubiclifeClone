@@ -82,6 +82,13 @@ export default function OnboardingPage() {
     }))
   }
 
+  const isNextDisabled = () => {
+    if (step === 1 && !data.travelFrequency) return true
+    if (step === 2 && data.interests.length === 0) return true
+    if (step === 3 && !data.budgetRange) return true
+    return false
+  }
+
   if (!user) return null
 
   return (
@@ -232,7 +239,8 @@ export default function OnboardingPage() {
         </Button>
         <Button
           onClick={handleNext}
-          className="bg-[#135bec] hover:bg-[#135bec]/90 text-white rounded-xl px-8 h-12 min-w-[120px]"
+          disabled={isNextDisabled()}
+          className="bg-[#135bec] hover:bg-[#135bec]/90 text-white rounded-xl px-8 h-12 min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {step === totalSteps ? "Finish" : "Next"}
           <ChevronRight className="w-4 h-4 ml-2" />

@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, ChevronDown, Check, Waves } from "lucide-react"
+import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, ChevronDown, Check, Waves, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -286,12 +286,12 @@ function RegisterForm() {
             </p>
             <Button
               type="button"
-              onClick={() => router.push("/portal")}
+              onClick={() => router.push("/portal/register")}
               variant="outline"
               className="w-full h-12 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-[#135bec] hover:border-[#135bec] rounded-xl transition-all flex items-center justify-center gap-2 group"
             >
-              <Waves className="w-5 h-5 text-slate-400 group-hover:text-[#135bec] transition-colors" />
-              Partner Login
+              <Building2 className="w-5 h-5 text-slate-400 group-hover:text-[#135bec] transition-colors" />
+              Register as a Merchant
             </Button>
           </div>
         </form>

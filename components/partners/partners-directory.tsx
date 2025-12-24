@@ -95,10 +95,14 @@ const partners = [
   },
 ]
 
-export function PartnersDirectory() {
+interface PartnersDirectoryProps {
+  defaultCategory?: string
+}
+
+export function PartnersDirectory({ defaultCategory }: PartnersDirectoryProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const initialCategory = searchParams.get("category") || "all"
+  const initialCategory = searchParams.get("category") || defaultCategory || "all"
   const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [searchQuery, setSearchQuery] = useState("")
 

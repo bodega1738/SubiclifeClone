@@ -61,10 +61,14 @@ export interface ChatMessage {
   timestamp: Date
   bookingCard?: {
     venue: string
+    category: string
+    rating: number
     time: string
     guests: number
     discount: number
+    price: number
     image: string
+    partnerId: string
   }
 }
 
@@ -187,4 +191,58 @@ export interface CounterOffer {
   merchant_note: string
   status: 'pending' | 'accepted' | 'declined'
   created_at: string
+}
+
+export interface MerchantRegistrationData {
+  // Step 1: Business Information
+  businessName: string
+  businessType: 'hotel' | 'restaurant' | 'water-sports' | 'activities' | 'services'
+  businessAddress: string
+  yearsInOperation: number
+  registrationNumber: string
+  
+  // Step 2: Contact Information
+  ownerName: string
+  email: string
+  phone: string
+  whatsapp: string
+  website: string
+  
+  // Step 3: Business Details
+  description: string
+  operatingHours: {
+    weekday: { start: string; end: string }
+    weekend: { start: string; end: string }
+    is24_7: boolean
+  }
+  capacity: number
+  
+  // Step 4: Packages & Pricing
+  packages: Array<{
+    name: string
+    description: string
+    basePrice: number
+  }>
+  
+  // Step 5: Photos & Media
+  logo: string // base64 or file path
+  coverPhoto: string
+  galleryPhotos: string[]
+  
+  // Step 6: Banking Information
+  bankName: string
+  accountName: string
+  accountNumber: string
+  accountType: 'savings' | 'current'
+  tinNumber: string
+  
+  // Step 7: Agreement
+  agreedToCommission: boolean
+  agreedToDiscounts: boolean
+  agreedToTerms: boolean
+  agreedToPrivacy: boolean
+  
+  // Metadata
+  submittedAt?: string
+  referenceNumber?: string
 }

@@ -1,345 +1,223 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Bell, Hotel, Waves, Utensils, MapPin, Grid3X3, ChevronRight, Star, Shield, Sparkles } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { useUser, discountPercentages, tierThresholds } from "@/lib/user-context"
-
-const quickActions = [
-  { id: "hotels", name: "Hotels", icon: Hotel, color: "text-[#135bec]" },
-  { id: "activities", name: "Activities", icon: MapPin, color: "text-orange-500" },
-  { id: "water-sports", name: "Water\nSports", icon: Waves, color: "text-cyan-500" },
-  { id: "dining", name: "Dining", icon: Utensils, color: "text-red-500" },
-  { id: "insurance", name: "Insurance", icon: Shield, color: "text-purple-500" },
-  { id: "all", name: "All Partners", icon: Grid3X3, color: "text-gray-500" },
-]
-
-const featuredOffers = [
-  {
-    id: "1",
-    type: "large",
-    image: "/images/7c5eba-268dcc5019d54475ae66c5bc17a5c336-mv2.png",
-    badge: "Platinum",
-    badgeColor: "bg-[#10b981]",
-    title: "Free Airport Lounge Access",
-    subtitle: "Global coverage",
-  },
-  {
-    id: "2",
-    type: "small",
-    icon: Utensils,
-    title: "2x Points",
-    subtitle: "On all fine dining",
-  },
-  {
-    id: "3",
-    type: "small",
-    badge: "Invite Only",
-    title: "Exclusive Gala Night",
-    cta: "RSVP Now",
-  },
-]
-
-const deals = [
-  {
-    id: "1",
-    image: "/images/a97d3f-f3e8aad1f46446e58a87dda0cae5d7b9-mv2.png",
-    badge: "30% OFF",
-    badgeColor: "bg-[#10b981]",
-    title: "Yacht Charter",
-    subtitle: "La Banca Cruises",
-    price: "₱8,500",
-    originalPrice: "₱12,000",
-  },
-  {
-    id: "2",
-    image: "/images/3.jpeg",
-    badge: "Wildlife",
-    badgeColor: "bg-orange-500",
-    title: "Tiger Encounter",
-    subtitle: "Zoobic Safari",
-    price: "₱1,200",
-    originalPrice: "₱1,600",
-  },
-  {
-    id: "3",
-    image: "/images/7c5eba-df2c5ae831f247eab0d0f46ba54f996a-mv2-d-2880-1616-s-2.jpg",
-    badge: "Sailing",
-    badgeColor: "bg-[#135bec]",
-    title: "Weekend Lessons",
-    subtitle: "Subic Sailing",
-    price: "₱2,500",
-    originalPrice: "₱3,500",
-  },
-]
-
-const tierConfig = {
-  starter: {
-    label: "STARTER MEMBER",
-    labelColor: "text-blue-300",
-    nextTier: "Basic",
-    nextThreshold: 5000,
-  },
-  basic: {
-    label: "BASIC MEMBER",
-    labelColor: "text-green-300",
-    nextTier: "Premium",
-    nextThreshold: 15000,
-  },
-  premium: {
-    label: "PREMIUM MEMBER",
-    labelColor: "text-orange-300",
-    nextTier: "Elite",
-    nextThreshold: 30000,
-  },
-  elite: {
-    label: "ELITE MEMBER",
-    labelColor: "text-blue-300",
-    nextTier: "Diamond",
-    nextThreshold: 50000,
-  },
-}
+import React from "react"
+import Link from "next/link"
 
 export function HomeDashboard() {
-  const { user, merchantSession } = useUser()
-  const router = useRouter()
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  const firstName = user?.name?.split(" ")[0] || "Guest"
-  const tier = user?.tier || "starter"
-  const points = user?.points || 1000
-  const config = tierConfig[tier as keyof typeof tierConfig] || tierConfig.starter
-  const userDiscount = discountPercentages[tier] || 5
-
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  // Calculate progress to next tier
-  const currentThreshold = tierThresholds[tier as keyof typeof tierThresholds] || 0
-  const nextThreshold = config.nextThreshold
-  const progressPercent = Math.min(((points - currentThreshold) / (nextThreshold - currentThreshold)) * 100, 100)
-  const pointsToNext = Math.max(nextThreshold - points, 0)
-
-  const handleQuickAction = (id: string) => {
-    if (id === "all") {
-      router.push("/partners")
-    } else {
-      router.push(`/partners?category=${id}`)
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-[#f6f6f8] pb-24">
-      <header className="sticky top-0 z-50 bg-[#f6f6f8]/95 backdrop-blur-md">
-        <div className="flex items-center justify-between px-5 pt-14 pb-4">
-          <div className="flex items-center gap-3.5">
-            <div className="relative">
-              <Avatar className="w-11 h-11 border-2 border-white shadow-sm">
-                <AvatarImage src="/placeholder-user.jpg" />
-                <AvatarFallback className="bg-[#135bec] text-white font-semibold">{firstName.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#10b981] border-2 border-white rounded-full" />
+    <div className="relative min-h-screen w-full mx-auto overflow-hidden bg-gray-50 dark:bg-background-dark shadow-2xl font-body selection:bg-teal-500 selection:text-white">
+      <div className="absolute inset-0 bg-custom-gradient z-0 pointer-events-none transition-colors duration-500"></div>
+      <div className="relative z-10 h-full overflow-y-auto pb-28 no-scrollbar">
+        <div className="px-6 pt-14 pb-2">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h1 className="text-[28px] font-display text-gray-900 dark:text-white tracking-tight leading-tight">
+                Good morning,<br /><span className="font-bold">Alfred.</span>
+              </h1>
             </div>
-            <div className="flex flex-col">
-              <span className="text-[#616f89] text-xs font-medium">Welcome back,</span>
-              <h2 className="text-[#111318] text-lg font-bold leading-tight">{firstName}</h2>
+            <div className="mt-1">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-900 shadow-md">
+                <span className="material-symbols-outlined text-yellow-400 text-[14px] mr-1">workspace_premium</span>
+                <span className="text-[10px] font-semibold text-white tracking-wide uppercase">Elite Member</span>
+              </div>
             </div>
           </div>
-          <button className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 text-[#111318] hover:bg-gray-50 transition-colors">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-          </button>
+          <div className="relative mb-6">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
+            </div>
+            <input 
+              className="block w-full pl-11 pr-4 py-4 bg-white dark:bg-input-dark rounded-2xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-0 border-none shadow-card" 
+              placeholder="Find me a yacht for Saturday..." 
+              type="text" 
+            />
+          </div>
         </div>
-      </header>
-
-      <main className="space-y-8">
-        <section className="px-5">
-          <div className="bg-[#101622] rounded-[2.5rem] p-6 relative overflow-hidden shadow-2xl ring-1 ring-white/5">
-            {/* Background effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1e2330] to-[#0c0f16]" />
-            <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[80%] rounded-full bg-[#135bec]/20 blur-3xl" />
-            <div className="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] rounded-full bg-[#135bec]/10 blur-2xl" />
-
-            <div className="relative z-10 flex flex-col gap-8">
-              <div className="flex justify-between items-start">
-                <div className="flex flex-col gap-1">
-                  <span className={`${config.labelColor} font-bold tracking-wider uppercase text-[13px]`}>
-                    {config.label}
-                  </span>
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="text-[36px] font-bold text-white tracking-tight leading-none">
-                      {points.toLocaleString()}
-                    </h3>
-                    <span className="text-lg font-medium text-white/50">Pts</span>
+        <div className="mb-8">
+          <div className="px-6 mb-4 flex justify-between items-end">
+            <h2 className="text-lg font-display font-bold text-gray-900 dark:text-white">Deals for You</h2>
+            <Link className="text-xs font-semibold text-gray-500 hover:text-teal-600 transition-colors" href="#">View All</Link>
+          </div>
+          <div className="flex overflow-x-auto px-6 space-x-4 pb-4 no-scrollbar snap-x snap-mandatory">
+            <div className="snap-center flex-shrink-0 relative w-[260px] h-[360px] rounded-[2rem] overflow-hidden shadow-soft group cursor-pointer transform transition-transform duration-300 hover:scale-[1.02]">
+              <img alt="Sailboat on the ocean at sunset" className="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF9OUdAnlkPsFOiRtwOO80asu6TM23LT4F12VGE006wug7b10OkgVzv1DjrAlJpToD2emJmX_-pajEiq4qeVEctTfa7xceggHes8F7bMVFLAQ01jSj2-ne_CX4t_QPty0idD63aTcxWfz3N-4Z5ngDALLo3_DT7aMfpeacSyUwNgmt_J6yLeLrK2B8viP2CqcexbLwzFBVvddJ6h6c54mbwtpoALG_plKUPWRhOUHdrTYZz0b2xvX-6TaRmPmW9K5JkoUEIt6qE2mI" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+              <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-2 py-1 rounded-lg border border-white/10">
+                <span className="text-xs font-bold text-white">PROMO</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="material-symbols-outlined text-yellow-400 text-sm fill-1">star</span>
+                  <span className="text-xs font-semibold text-white">4.9 (120 reviews)</span>
+                </div>
+                <h3 className="text-xl font-bold mb-1 font-display leading-tight text-shadow-sm">Sunset Yacht Cruise</h3>
+                <p className="text-xs text-gray-200 mb-3 line-clamp-1">Experience the golden hour on the bay.</p>
+                <div className="flex items-center justify-between mt-2">
+                  <div>
+                    <span className="text-[10px] text-gray-300 block uppercase tracking-wider">Starting at</span>
+                    <span className="text-lg font-bold text-white">₱8,500</span>
+                  </div>
+                  <button className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-100 transition-colors">
+                    <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="snap-start flex-shrink-0 flex flex-col justify-between w-[260px] h-[360px] space-y-4">
+              <div className="relative w-full h-[172px] rounded-[1.5rem] overflow-hidden shadow-card group cursor-pointer bg-white dark:bg-card-dark flex flex-row">
+                <div className="w-[110px] h-full relative flex-shrink-0">
+                  <img alt="Gourmet dish presentation" className="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrd2-H1o4J6xP1ieaCWXYuqXx0t_cYoFziDUMrbiS5CtQ5lpVZnoANV06ktwGpYL-1f2XhInhX1JnEE5G4_tnsurjzBt3c6M9n5A4Dlo_SbbbrpBl8ZSqxypOK1iTK5nGPx_3Rjdhh6okx3GcHo6QPU69frTvhvO8ufORuznvizumCmAM89eZM6ZpWLm_HpQJhny436pQrqZDDEquQq4M33aAWkgsbxRCH2xr-quGdpdaA8ggezoK6j0Y8hB25EiqrlneslylX9r2J" />
+                </div>
+                <div className="flex-1 p-4 flex flex-col justify-center">
+                  <div className="flex items-center gap-1 mb-1">
+                    <span className="material-symbols-outlined text-yellow-500 text-[10px] fill-1">star</span>
+                    <span className="text-[10px] text-gray-500">4.8</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white leading-tight mb-2 font-display">Chef's Table Experience</h3>
+                  <div className="mt-auto">
+                    <span className="text-[10px] text-gray-400 block uppercase">Per Person</span>
+                    <span className="text-sm font-bold text-gray-900 dark:text-white">₱3,500</span>
                   </div>
                 </div>
-                <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-lg backdrop-blur-sm">
-                  <Sparkles className="w-5 h-5 text-white/60" />
+              </div>
+              <div className="relative w-full h-[172px] rounded-[1.5rem] overflow-hidden shadow-card group cursor-pointer bg-white dark:bg-card-dark flex flex-row">
+                <div className="w-[110px] h-full relative flex-shrink-0">
+                  <img alt="Woman receiving spa treatment" className="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA3XQ23ychQ2a6yAKmyJLGezK8fleNlahEKJz_mLIX5rdD2ibf1g1DVXzpfP5ZkyYyTRNmOcAIFi1IzfRqN_JB5wbOSsH86qG_0CMWpywlkEIHtk3-YvuncR-hd-Nccdz_INUZYoeSO5-3zidOsUvE4zfo3DfZ7bsWXd1QN1YdWq9pe__4t4Q_pfyw_4kR9bnCVZX4a4uM5c1r91BR0bgKTzdX-yhnA-VyHB6DXn01I2Lc0XsszQRaGBfpVtMzcm9j1vfAHYW331s0" />
+                </div>
+                <div className="flex-1 p-4 flex flex-col justify-center">
+                  <div className="flex items-center gap-1 mb-1">
+                    <span className="material-symbols-outlined text-yellow-500 text-[10px] fill-1">star</span>
+                    <span className="text-[10px] text-gray-500">4.9</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white leading-tight mb-2 font-display">Wellness Retreat</h3>
+                  <div className="mt-auto">
+                    <span className="text-[10px] text-gray-400 block uppercase">Package</span>
+                    <span className="text-sm font-bold text-gray-900 dark:text-white">₱4,200</span>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex flex-col gap-3">
-                <div className="flex justify-between items-end text-sm">
-                  <span className="text-white/60 font-medium">{config.nextTier} Tier</span>
-                  <span className="text-white/60 font-medium">{pointsToNext.toLocaleString()} pts to go</span>
+            </div>
+            <div className="snap-center flex-shrink-0 relative w-[260px] h-[360px] rounded-[2rem] overflow-hidden shadow-soft group cursor-pointer">
+              <img alt="Helicopter view" className="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4X_4nFbh7KJ-Li_7bzL2B3LRiQYc6qjyblyW93TqbNICVLt_XtvWJU1uJGXT08CrSPiZyCJU7IjSeRvU-MFy3KQrtelxFzP4rMJjxGL6JUQAINTW696zKda6EHD3hWesaS12OCFoX6lE1x2Ev4olZkUzayxCATORghil7vHyoe6MJYN8QcmVTCOpa4ts1I8gZ0GiADO6-yETZCyNkU1eVphgkk9ucgZkrnIhfysVA2LmcVYfndGxNWm3FPXr4pNa_mLrfNEIyqMAD" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="material-symbols-outlined text-yellow-400 text-sm fill-1">star</span>
+                  <span className="text-xs font-semibold text-white">5.0 (45 reviews)</span>
                 </div>
-                <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                  <div
-                    className="h-full bg-[#135bec] rounded-full shadow-[0_0_12px_rgba(19,91,236,0.6)] transition-all duration-500"
-                    style={{ width: `${progressPercent}%` }}
-                  />
+                <h3 className="text-xl font-bold mb-1 font-display leading-tight text-shadow-sm">Sky Tour</h3>
+                <p className="text-xs text-gray-200 mb-3 line-clamp-1">See Subic from the clouds.</p>
+                <div className="flex items-center justify-between mt-2">
+                  <div>
+                    <span className="text-[10px] text-gray-300 block uppercase tracking-wider">Starting at</span>
+                    <span className="text-lg font-bold text-white">₱12,500</span>
+                  </div>
+                  <button className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-100 transition-colors">
+                    <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                  </button>
                 </div>
               </div>
-
-              <Button 
-                onClick={() => router.push("/membership")}
-                className="w-full h-14 rounded-full bg-white text-[#111318] font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-gray-50 shadow-lg"
-              >
-                <Star className="w-5 h-5 text-[#135bec]" />
-                Redeem Rewards
-              </Button>
             </div>
           </div>
-        </section>
-
-        <section className="pl-5">
-          <h3 className="text-sm font-bold text-[#111318] mb-3 pr-5">Quick Actions</h3>
-          <div className="flex gap-3 overflow-x-auto pb-4 pr-5 snap-x snap-mandatory">
-            {quickActions.map((action) => (
-              <button
-                key={action.id}
-                onClick={() => handleQuickAction(action.id)}
-                className="snap-start shrink-0 flex flex-col items-center justify-center gap-2 w-[84px] p-2 rounded-2xl bg-transparent transition-all active:scale-95 group"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center group-hover:shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] transition-shadow">
-                  <action.icon className={`w-6 h-6 ${action.color}`} />
-                </div>
-                <span className="text-[11px] font-semibold text-[#111318] text-center leading-tight whitespace-pre-line">
-                  {action.name}
-                </span>
-              </button>
-            ))}
-          </div>
-          
-          {isMounted && (
-            <div className="pr-5 mt-2">
-              <Button
-                onClick={() => router.push("/portal")}
-                className="w-full h-12 bg-[#135bec] text-white rounded-lg shadow-md hover:bg-[#0e45b5] active:scale-95 transition-all flex items-center justify-center gap-2"
-              >
-                <Waves className="w-5 h-5" />
-                {merchantSession ? "Go to Dashboard" : "Partner Login"}
-              </Button>
-            </div>
-          )}
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <div className="flex items-center justify-between px-5">
-            <h2 className="text-lg font-bold text-[#111318] flex items-center gap-2">
-              Featured Offers
-              <span className="flex w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            </h2>
-            <button
-              onClick={() => router.push("/partners")}
-              className="text-xs font-bold text-[#135bec] hover:text-[#0e45b5] transition-colors"
-            >
-              View all
+        </div>
+        <div className="px-6">
+          <div className="mb-4 flex justify-between items-end">
+            <h2 className="text-lg font-display font-bold text-gray-900 dark:text-white">Available Offers</h2>
+            <button className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              <span className="material-symbols-outlined text-gray-600 dark:text-gray-300 text-lg">tune</span>
             </button>
           </div>
-
-          <div className="grid grid-cols-2 gap-3 px-5 h-[340px]">
-            {/* Large card */}
-            <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden group cursor-pointer shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)]">
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url('${featuredOffers[0].image}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute inset-0 flex flex-col justify-between p-4 pb-6">
-                <div className="flex items-start">
-                  <span
-                    className={`inline-flex items-center justify-center ${featuredOffers[0].badgeColor} text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm`}
-                  >
-                    {featuredOffers[0].badge}
-                  </span>
+          <div className="space-y-4">
+            <div className="bg-white dark:bg-card-dark rounded-[1.5rem] p-3 shadow-card flex gap-4 h-32 items-center">
+              <div className="w-28 h-full flex-shrink-0 rounded-[1rem] overflow-hidden relative">
+                <img alt="Fairfield Inn pool area" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqstMOsp25c9F8BWncEfz0LyW-C1y4kAj-WDSBC_lSKI7mTrezf9fbm17Syc38RL_DFJHA_d6prFl5UGWUhThK-3tX1F5puDJuEsDe7gtBHlfsJywEMr-lxnZCx-4HojdBulUvzQgVqQEDVpGjh6ygVx7CvKNjBdWX2hLdhwTVbsR7eXu37JMTd0kRR1BPqNKk-Fd7G5umODd_kg1A8cas9ZL2Now_S7C67hL5HsUx0qOrsy-AIaAXy3mYNzjfPyCDXVznUStlyWBU" />
+                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-800">
+                  HOTEL
                 </div>
-                <div className="flex flex-col gap-0.5">
-                  <h3 className="text-xl font-bold text-white leading-tight">{featuredOffers[0].title}</h3>
-                  <p className="text-xs text-white/80 font-medium">{featuredOffers[0].subtitle}</p>
+              </div>
+              <div className="flex-1 flex flex-col justify-between h-full py-1">
+                <div>
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-[15px] font-bold text-gray-900 dark:text-white leading-snug font-display line-clamp-1">Fairfield Inn & Suites</h3>
+                    <span className="material-symbols-outlined text-gray-300 text-lg cursor-pointer hover:text-red-500">favorite</span>
+                  </div>
+                  <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span className="material-symbols-outlined text-[14px] mr-1 text-teal-500">location_on</span>
+                    <span className="truncate">Subic Bay Freeport Zone</span>
+                  </div>
+                </div>
+                <div className="flex items-end justify-between mt-1">
+                  <div>
+                    <p className="text-[16px] font-bold text-gray-900 dark:text-white leading-none">₱5,500</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">/ Night</p>
+                  </div>
+                  <button className="bg-black dark:bg-white dark:text-black text-white text-[11px] font-semibold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95">
+                    Book
+                  </button>
                 </div>
               </div>
             </div>
-
-            {/* Small cards column */}
-            <div className="flex flex-col gap-3 h-full">
-              {/* 2x Points card */}
-              <div className="flex-1 bg-white rounded-[1.5rem] shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)] p-3 flex flex-col items-center justify-center text-center border border-gray-100 group cursor-pointer">
-                <div className="bg-blue-50 text-[#135bec] rounded-2xl p-2.5 mb-2 group-hover:scale-110 transition-transform duration-300">
-                  <Utensils className="w-7 h-7" />
+            <div className="bg-white dark:bg-card-dark rounded-[1.5rem] p-3 shadow-card flex gap-4 h-32 items-center">
+              <div className="w-28 h-full flex-shrink-0 rounded-[1rem] overflow-hidden relative">
+                <img alt="Elegant restaurant interior" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNbXbmJVXs2evhGBe8TWiqZ0idOskgCJ9K1JxXK1Z7c8c3LV_-1Bbq0Z-Tzxu9ozihwJ9CxPkz9uFBrqQgtUSGUWnTZOjyNVuwOQiPVdGDICVEBrqF1VqwWCcWfIW0Qwhc4UsFPGG4ytShBfECMu9ph_nBurZSP8Ov6JNNikaWrgr6DViK7uHVFdO3JyT8pIGBQInF6zB5HKY9dzDuYClx9O9gndN-di3Mbgt1DLaoItDMBWLAu8y96RP2XsszAd2NRJRLCB1XJ9kQ" />
+                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-800">
+                  DINING
                 </div>
-                <h3 className="text-base font-bold text-[#111318]">2x Points</h3>
-                <p className="text-[10px] text-[#616f89]">On all fine dining</p>
               </div>
-
-              {/* Gala Night card */}
-              <div className="flex-1 bg-white rounded-[1.5rem] shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)] p-4 flex flex-col justify-between items-start border border-gray-100 group cursor-pointer">
-                <span className="bg-gray-100 text-[#616f89] text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
-                  Invite Only
-                </span>
-                <div className="mt-1 w-full">
-                  <h3 className="text-sm font-bold text-[#111318] leading-tight mb-2">Exclusive Gala Night</h3>
-                  <div className="text-[10px] font-bold text-[#10b981] flex items-center gap-1 group-hover:gap-1.5 transition-all">
-                    RSVP Now <ChevronRight className="w-3 h-3" />
+              <div className="flex-1 flex flex-col justify-between h-full py-1">
+                <div>
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-[15px] font-bold text-gray-900 dark:text-white leading-snug font-display line-clamp-1">Lighthouse Marina</h3>
+                    <span className="material-symbols-outlined text-gray-300 text-lg cursor-pointer hover:text-red-500">favorite</span>
                   </div>
+                  <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span className="material-symbols-outlined text-[14px] mr-1 text-teal-500">location_on</span>
+                    <span className="truncate">Waterfront Road</span>
+                  </div>
+                </div>
+                <div className="flex items-end justify-between mt-1">
+                  <div>
+                    <p className="text-[16px] font-bold text-gray-900 dark:text-white leading-none">₱3,200</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">/ Prix Fixe</p>
+                  </div>
+                  <button className="bg-black dark:bg-white dark:text-black text-white text-[11px] font-semibold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95">
+                    Reserve
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white dark:bg-card-dark rounded-[1.5rem] p-3 shadow-card flex gap-4 h-32 items-center">
+              <div className="w-28 h-full flex-shrink-0 rounded-[1rem] overflow-hidden relative">
+                <img alt="Jet ski on water" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBas64d4J2Hl-U3n3g9TppED2_9JrBRZ74WBAmNfSLHoUPoFnOw6oXzdraaHoWQhTcfiQfJZcE6XszEm8UMlcS-BZzxyYZTJ-bVDXs8c7bxa5ANDYLPAJiV0kONm-Hgicqpo-eeeSSk86sPVxMpvUBzBU3uC2dBEwHOXFJYJvkm0nM0lG_68mk-JUokKqYXeAUsNtUcUN6ttUtt2OEHfdZNvlRMYdgLak5BJsvq8IWRceqli1U49JiGWiI-Cee4NL01Y2reeDioslyV" />
+                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-800">
+                  ACTIVITY
+                </div>
+              </div>
+              <div className="flex-1 flex flex-col justify-between h-full py-1">
+                <div>
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-[15px] font-bold text-gray-900 dark:text-white leading-snug font-display line-clamp-1">Subic Watersports</h3>
+                    <span className="material-symbols-outlined text-gray-300 text-lg cursor-pointer hover:text-red-500">favorite</span>
+                  </div>
+                  <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span className="material-symbols-outlined text-[14px] mr-1 text-teal-500">location_on</span>
+                    <span className="truncate">Moonbay Marina</span>
+                  </div>
+                </div>
+                <div className="flex items-end justify-between mt-1">
+                  <div>
+                    <p className="text-[16px] font-bold text-gray-900 dark:text-white leading-none">₱2,500</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">/ Hour</p>
+                  </div>
+                  <button className="bg-black dark:bg-white dark:text-black text-white text-[11px] font-semibold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95">
+                    Book
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-
-        <section className="pb-5">
-          <div className="flex items-center justify-between mb-4 px-5">
-            <h2 className="text-lg font-bold text-[#111318]">Deals for You</h2>
-          </div>
-          <div className="flex gap-4 overflow-x-auto pb-6 px-5 snap-x snap-mandatory">
-            {deals.map((deal) => (
-              <div
-                key={deal.id}
-                className="snap-center shrink-0 w-[300px] h-[200px] relative rounded-[2rem] overflow-hidden shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)] group cursor-pointer"
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                  style={{ backgroundImage: `url('${deal.image}')` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6 w-full">
-                  <div className="flex justify-between items-end w-full">
-                    <div>
-                      <span
-                        className={`inline-block ${deal.badgeColor} text-white text-[10px] font-bold px-2.5 py-1 rounded-full mb-2`}
-                      >
-                        {deal.badge}
-                      </span>
-                      <h3 className="text-xl font-bold text-white mb-1">{deal.title}</h3>
-                      <p className="text-xs text-white/80">{deal.subtitle}</p>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <span className="text-lg font-bold text-white">{deal.price}</span>
-                      <span className="text-xs text-white/60 line-through">{deal.originalPrice}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   )
 }
