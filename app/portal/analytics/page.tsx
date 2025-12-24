@@ -130,7 +130,7 @@ export default function AnalyticsPage() {
     // Set initial form values
     if (initialPartner) {
       setBusinessName(initialPartner.name)
-      setCategory(initialPartner.type)
+      setCategory(initialPartner.category)
       setContactEmail("info@lighthouse.com") // Mock
       setPhone("+63 47 252 5000") // Mock
       setWhatsapp("+63 917 123 4567") // Mock
@@ -142,7 +142,7 @@ export default function AnalyticsPage() {
     setCurrentPartner(partner)
     setShowPartnerMenu(false)
     setBusinessName(partner.name)
-    setCategory(partner.type)
+    setCategory(partner.category)
   }
 
   const handleExport = () => {
@@ -206,7 +206,7 @@ export default function AnalyticsPage() {
               className="flex items-center gap-3 text-left hover:bg-slate-50 p-1 rounded-lg transition-colors"
             >
               <img
-                src={currentPartner?.logo || "/images/7c5eba-268dcc5019d54475ae66c5bc17a5c336-mv2.png"}
+                src={currentPartner?.logo || "/images/lighthouse-marina-logo.png"}
                 alt={currentPartner?.name}
                 className="w-10 h-10 rounded-lg object-contain bg-slate-100 border border-slate-200"
               />

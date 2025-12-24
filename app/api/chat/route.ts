@@ -72,7 +72,7 @@ const partners = {
       category: "Adventure",
       rating: 4.3,
       price: 500,
-      image: "/images/7c5eba-268dcc5019d54475ae66c5bc17a5c336-mv2.png" 
+      image: "/images/lighthouse-marina-logo.png" 
     },
   ],
   water: [
@@ -104,7 +104,7 @@ const partners = {
       category: "Water Sports",
       rating: 4.5,
       price: 1500,
-      image: "/images/icc-20zambales.png"
+      image: "/images/icc-zambales-logo.png"
     },
   ],
   diving: [
@@ -126,7 +126,7 @@ const partners = {
       category: "Diving",
       rating: 4.5,
       price: 2500,
-      image: "/images/icc-20zambales.png"
+      image: "/images/icc-zambales-logo.png"
     },
   ],
   hotel: [

@@ -14,36 +14,39 @@ export function HeroSection() {
   }
 
   return (
-    <div className="bg-background-light min-h-screen flex items-center justify-center font-sans text-text-primary-light">
-      <div className="w-full max-w-md mx-auto h-full min-h-screen bg-background-light relative overflow-hidden flex flex-col">
-        {/* Background Image Section */}
-        <div className="absolute top-0 left-0 w-full h-[45%] z-0">
-          <img
-            alt="Beautiful beach landscape at sunset"
-            className="w-full h-full object-cover opacity-90"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGymlp-8Q4zLvtXBZTL3Via5ZneNjym2e__35GM6eWMxwuxm8RKN84oXEK5qbl0IRhpEDqk3Fz3uOErROpzuueOtcXXeWDg28nHzwnBteGkinrX7qKpSXHoOG7ERhoCbTNLxShc2_gyeo6-NFzPC2nps9apwOG7sooaQoQRupSv2B9LYs-jIsjJbCpn_s2iL_YirsyGwwM-bABcGz7ZosXT3jagy3mM0AY9BRRstcgHb0IhCFTf2ECiHkw81EkJkMxv_sBn17aybra"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-background-light"></div>
+    <div className="bg-white min-h-screen flex items-center justify-center font-sans">
+      <div className="w-full max-w-md mx-auto h-full min-h-screen relative overflow-hidden flex flex-col">
+        {/* Background Gradient Section */}
+        <div className="absolute top-0 left-0 w-full h-full z-0 bg-gradient-to-b from-white via-blue-50 to-teal-800 overflow-hidden">
+          {/* Side Gradients */}
+          <div className="absolute top-1/4 -left-40 w-80 h-80 bg-blue-200/40 blur-[100px] rounded-full"></div>
+          <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-teal-200/40 blur-[100px] rounded-full"></div>
         </div>
 
         {/* Content Section */}
-        <div className="relative z-10 pt-16 pb-6 px-6 flex flex-col items-center">
-          <div className="text-center mb-4 drop-shadow-lg">
-            <h1 className="font-script text-6xl text-white mb-[-10px] tracking-wide">Subic</h1>
-            <div className="text-[0.7rem] uppercase tracking-[0.4em] text-yellow-300 font-bold ml-2">
-              . Life
-            </div>
+        <div className="relative z-10 pt-16 pb-10 px-6 flex flex-col items-center">
+          {/* Logo */}
+          <div className="mb-8">
+            <img src="/images/subic-life-script-logo.png" alt="Subic Life Logo" className="h-16 object-contain brightness-0" />
           </div>
-          <h2 className="text-3xl font-extrabold text-white mt-4 text-center leading-tight drop-shadow-md">
-            Your Gateway <br /> to Subic Bay
+          
+          <div className="text-center mb-4">
+            <p className="text-sm font-bold text-slate-900 tracking-widest uppercase mb-4">Welcome to</p>
+          </div>
+          <h1 className="text-5xl font-black text-slate-900 text-center leading-[0.9] tracking-tighter">
+            Subic<br />
+            Life
+          </h1>
+          <h2 className="text-lg font-bold text-slate-800 text-center mt-6">
+            Your Gateway to Subic Bay
           </h2>
-          <p className="text-white/90 text-sm mt-3 text-center font-medium drop-shadow-sm max-w-[280px]">
+          <p className="text-slate-600 text-xs mt-3 text-center font-medium max-w-[280px]">
             Exclusive benefits. Sustainable travel. Experience paradise.
           </p>
         </div>
 
         {/* Action Sheet */}
-        <div className="flex-1 relative z-20 bg-background-light rounded-t-[2rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] mt-4 px-6 pt-8 pb-12 flex flex-col animate-slide-up">
+        <div className="flex-1 relative z-20 bg-white rounded-t-[2.5rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] mt-4 px-6 pt-10 pb-12 flex flex-col animate-slide-up">
           <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-8"></div>
           
           <div className="space-y-4 w-full max-w-sm mx-auto">

@@ -52,7 +52,14 @@ function RegisterForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-teal-50 to-teal-700 flex flex-col font-sans">
+    <div className="min-h-screen bg-white flex flex-col font-sans relative overflow-hidden">
+      {/* Background Gradient Section */}
+      <div className="absolute top-0 left-0 w-full h-full z-0 bg-gradient-to-b from-white via-blue-50 to-teal-800">
+        {/* Side Gradients */}
+        <div className="absolute top-1/4 -left-40 w-80 h-80 bg-blue-200/40 blur-[100px] rounded-full"></div>
+        <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-teal-200/40 blur-[100px] rounded-full"></div>
+      </div>
+
       {/* Header */}
       <div className="pt-8 px-6 pb-8 text-center relative z-10">
         <button
@@ -61,13 +68,20 @@ function RegisterForm() {
         >
           <ArrowLeft className="w-6 h-6 text-slate-900" />
         </button>
+
+        {/* Logo */}
+        <div className="mb-6 flex justify-center">
+          <img src="/images/subic-life-script-logo.png" alt="Subic Life Logo" className="h-12 object-contain brightness-0" />
+        </div>
         
-        <h2 className="text-sm font-bold text-slate-900 tracking-wide uppercase mb-4">Create an account</h2>
-        <h1 className="text-4xl font-black text-slate-900 leading-tight tracking-tight">
+        <h2 className="text-sm font-bold text-slate-900 tracking-widest uppercase mb-4 text-center mx-auto">Create an account</h2>
+        <h1 className="text-5xl font-black text-slate-900 leading-[0.9] tracking-tighter">
           Subic<br />
-          Frequent<br />
-          Traveler
+          Life
         </h1>
+        <p className="text-slate-600 text-sm mt-6 text-center font-medium mx-auto max-w-[280px]">
+          Join Subic.Life for exclusive travel benefits
+        </p>
       </div>
 
       {/* Form Container */}

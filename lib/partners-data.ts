@@ -20,7 +20,7 @@ export const partners: Partner[] = [
   {
     id: "lighthouse",
     name: "Lighthouse Marina Resort",
-    logo: "/images/7c5eba-df2c5ae831f247eab0d0f46ba54f996a-mv2-d-2880-1616-s-2.jpg",
+    logo: "/images/subic-sailing-hero.jpg",
     category: "hotels",
     description:
       "Premier waterfront resort with stunning views of Subic Bay. Home of the Saturday Afternoon Gentlemen Sailors.",
@@ -32,7 +32,7 @@ export const partners: Partner[] = [
   {
     id: "labanca",
     name: "La Banca Cruises",
-    logo: "/images/a97d3f-f3e8aad1f46446e58a87dda0cae5d7b9-mv2.png",
+    logo: "/images/la-banca-cruises-logo.png",
     category: "water-sports",
     description: "Luxury yacht cruises around Subic Bay. Perfect for sunset tours and special occasions.",
     discount: 15,
@@ -43,7 +43,7 @@ export const partners: Partner[] = [
   {
     id: "zoobic",
     name: "Zoobic Safari",
-    logo: "/images/3.jpeg",
+    logo: "/images/zoobic-safari-logo.jpeg",
     category: "activities",
     description: "Experience wildlife up close with thrilling safari adventures and animal encounters.",
     discount: 15,
@@ -54,7 +54,7 @@ export const partners: Partner[] = [
   {
     id: "treetop",
     name: "Tree Top Adventure",
-    logo: "/images/tree-20top.jpeg",
+    logo: "/images/tree-top-adventure-logo.jpeg",
     category: "activities",
     description: "Nature camp with ziplines, rope courses, and eco-adventures in the Subic forest.",
     discount: 10,
@@ -64,7 +64,7 @@ export const partners: Partner[] = [
   {
     id: "funtastic",
     name: "Funtastic Park",
-    logo: "/images/4.jpeg",
+    logo: "/images/funtastic-park-logo.jpeg",
     category: "activities",
     description: "Family-friendly amusement park with rides, attractions, and entertainment for all ages.",
     discount: 10,
@@ -84,7 +84,7 @@ export const partners: Partner[] = [
   {
     id: "icc",
     name: "ICC Zambales",
-    logo: "/images/icc-20zambales.png",
+    logo: "/images/icc-zambales-logo.png",
     category: "services",
     description: "Local community organization supporting sustainable tourism in Zambales.",
     discount: 10,
@@ -104,7 +104,7 @@ export const partners: Partner[] = [
   {
     id: "assist-america",
     name: "Assist America",
-    logo: "/images/1631388385330.jpg",
+    logo: "/images/assist-america-logo.jpg",
     category: "services",
     description: "Global emergency assistance services for travelers.",
     discount: 0,
